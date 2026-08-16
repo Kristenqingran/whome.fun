@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "trending": "热门",
+    "personality": "人格",
+    "career": "职业",
+    "love": "情感",
+    "fun": "趣味"
+  },
+  "hero": {
+    "title": "通过有趣的测试发现真实的自己",
+    "subtitle": "探索你的人格、职业倾向、情感关系和隐藏特质。"
+  },
+  "home": {
+    "featured": "精选测试",
+    "popular": "热门测试",
+    "categories": "分类",
+    "takeQuiz": "开始测试",
+    "people": "人已测试"
+  },
+  "category": {
+    "quizzes": "个测试",
+    "explore": "探索"
+  },
+  "quiz": {
+    "start": "开始测试",
+    "next": "下一题",
+    "back": "上一题",
+    "question": "第",
+    "of": "题，共",
+    "results": "查看结果",
+    "takeAgain": "重新测试",
+    "shareResult": "分享你的结果",
+    "tryAnother": "探索更多测试",
+    "relatedQuizzes": "你可能也喜欢",
+    "analyzing": "正在分析你的职业倾向..."
+  },
+  "result": {
+    "yourResult": "你的职业方向是",
+    "keywords": "你的职业关键词",
+    "careers": "可能适合你的方向",
+    "avoid": "你可能不喜欢",
+    "environment": "适合你的工作环境",
+    "secondary": "你的第二倾向",
+    "share": "分享",
+    "copyLink": "复制链接",
+    "saveImage": "保存图片"
+  },
+  "footer": {
+    "copyright": "Whome.fun"
+  },
+  "notFound": {
+    "title": "页面未找到",
+    "description": "你访问的页面不存在。",
+    "backHome": "返回首页"
+  }
+}

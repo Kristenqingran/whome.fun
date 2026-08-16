@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "trending": "Trending",
+    "personality": "Personality",
+    "career": "Career",
+    "love": "Love",
+    "fun": "Fun"
+  },
+  "hero": {
+    "title": "Discover yourself through fun quizzes",
+    "subtitle": "Explore your personality, career, relationships and hidden traits."
+  },
+  "home": {
+    "featured": "Featured Quiz",
+    "popular": "Popular Quizzes",
+    "categories": "Categories",
+    "takeQuiz": "Take Quiz",
+    "people": "people taken"
+  },
+  "category": {
+    "quizzes": "quizzes",
+    "explore": "Explore"
+  },
+  "quiz": {
+    "start": "Start Quiz",
+    "next": "Next",
+    "back": "Back",
+    "question": "Question",
+    "of": "of",
+    "results": "View Results",
+    "takeAgain": "Take Again",
+    "shareResult": "Share Your Result",
+    "tryAnother": "Explore More Quizzes",
+    "relatedQuizzes": "You Might Also Like",
+    "analyzing": "Analyzing your career direction..."
+  },
+  "result": {
+    "yourResult": "Your career direction is",
+    "keywords": "Your career keywords",
+    "careers": "Career paths for you",
+    "avoid": "You might not like",
+    "environment": "Ideal work environment",
+    "secondary": "Your secondary tendency",
+    "share": "Share",
+    "copyLink": "Copy Link",
+    "saveImage": "Save Image"
+  },
+  "footer": {
+    "copyright": "Whome.fun"
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "The page you're looking for doesn't exist.",
+    "backHome": "Back to Home"
+  }
+}
