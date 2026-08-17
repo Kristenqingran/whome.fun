@@ -35,13 +35,6 @@ export default async function ResultPage({ params, searchParams }: ResultPagePro
   const scores = getScores(quiz, parsedAnswers);
   const totalScore = Object.values(scores).reduce((a, b) => a + b, 0);
 
-  const resultLabels: Record<string, { en: string; zh: string }> = {
-    creative: { en: 'Creative', zh: '创意表达' },
-    helper: { en: 'Helper', zh: '助人成长' },
-    researcher: { en: 'Researcher', zh: '深度探索' },
-    independent: { en: 'Independent', zh: '自主理想' },
-  };
-
   const sortedScores = Object.entries(scores)
     .filter(([, score]) => score > 0)
     .sort(([, a], [, b]) => b - a);
@@ -78,7 +71,7 @@ export default async function ResultPage({ params, searchParams }: ResultPagePro
                 return (
                   <div key={type} className="flex items-center gap-3">
                     <span className={`w-20 text-sm ${isPrimary ? 'font-medium text-primary' : 'text-text-secondary'}`}>
-                      {resultLabels[type]?.[locale]}
+                      {quiz.results[type]?.title?.[locale] || type}
                     </span>
                     <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
                       <div
@@ -112,56 +105,119 @@ export default async function ResultPage({ params, searchParams }: ResultPagePro
             </div>
           </div>
 
-          {/* Careers */}
-          <div className="mb-8">
-            <h3 className="text-sm font-semibold text-text-primary mb-3">
-              {dictionary.result.careers}
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              {primary.result.careers.map((career, i) => (
-                <div
-                  key={i}
-                  className="p-3 bg-slate-50 rounded-xl text-center text-sm text-text-secondary"
-                >
-                  {career[locale]}
-                </div>
-              ))}
+          {/* Careers / Characteristics - support both formats */}
+          {primary.result.careers && (
+            <div className="mb-8">
+              <h3 className="text-sm font-semibold text-text-primary mb-3">
+                {dictionary.result.careers}
+              </h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {primary.result.careers.map((career, i) => (
+                  <div
+                    key={i}
+                    className="p-3 bg-slate-50 rounded-xl text-center text-sm text-text-secondary"
+                  >
+                    {career[locale]}
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
+
+          {/* Characteristics (alternative to careers) */}
+          {primary.result.characteristics && (
+            <div className="mb-8">
+              <h3 className="text-sm font-semibold text-text-primary mb-3">
+                {lang === 'zh' ? '性格特点' : 'Characteristics'}
+              </h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {primary.result.characteristics.map((item, i) => (
+                  <div
+                    key={i}
+                    className="p-3 bg-slate-50 rounded-xl text-center text-sm text-text-secondary"
+                  >
+                    {item[locale]}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Strengths (alternative format) */}
+          {primary.result.strengths && (
+            <div className="mb-8">
+              <h3 className="text-sm font-semibold text-text-primary mb-3">
+                {lang === 'zh' ? '优势特点' : 'Strengths'}
+              </h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {primary.result.strengths.map((item, i) => (
+                  <div
+                    key={i}
+                    className="p-3 bg-slate-50 rounded-xl text-center text-sm text-text-secondary"
+                  >
+                    {item[locale]}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Tips */}
+          {primary.result.tips && (
+            <div className="mb-8">
+              <h3 className="text-sm font-semibold text-text-primary mb-3">
+                {lang === 'zh' ? '小贴士' : 'Tips'}
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {primary.result.tips.map((item, i) => (
+                  <span
+                    key={i}
+                    className="px-3 py-1 bg-green-50 text-green-700 text-sm rounded-full"
+                  >
+                    {item[locale]}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Avoid */}
-          <div className="mb-8">
-            <h3 className="text-sm font-semibold text-text-primary mb-3">
-              {dictionary.result.avoid}
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {primary.result.avoid.map((item, i) => (
-                <span
-                  key={i}
-                  className="px-3 py-1 bg-slate-100 text-text-secondary text-sm rounded-full"
-                >
-                  {item[locale]}
-                </span>
-              ))}
+          {primary.result.avoid && (
+            <div className="mb-8">
+              <h3 className="text-sm font-semibold text-text-primary mb-3">
+                {dictionary.result.avoid}
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {primary.result.avoid.map((item, i) => (
+                  <span
+                    key={i}
+                    className="px-3 py-1 bg-slate-100 text-text-secondary text-sm rounded-full"
+                  >
+                    {item[locale]}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Environment */}
-          <div className="mb-8">
-            <h3 className="text-sm font-semibold text-text-primary mb-3">
-              {dictionary.result.environment}
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {primary.result.environment.map((item, i) => (
-                <span
-                  key={i}
-                  className="px-3 py-1 bg-green-50 text-green-700 text-sm rounded-full"
-                >
-                  {item[locale]}
-                </span>
-              ))}
+          {primary.result.environment && (
+            <div className="mb-8">
+              <h3 className="text-sm font-semibold text-text-primary mb-3">
+                {dictionary.result.environment}
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {primary.result.environment.map((item, i) => (
+                  <span
+                    key={i}
+                    className="px-3 py-1 bg-green-50 text-green-700 text-sm rounded-full"
+                  >
+                    {item[locale]}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Secondary */}
           {secondary && (

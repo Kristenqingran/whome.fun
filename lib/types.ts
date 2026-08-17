@@ -21,9 +21,12 @@ export interface ResultType {
   title: LocalizedString;
   description: LocalizedString;
   keywords: LocalizedString[];
-  careers: LocalizedString[];
-  avoid: LocalizedString[];
-  environment: LocalizedString[];
+  careers?: LocalizedString[];
+  avoid?: LocalizedString[];
+  environment?: LocalizedString[];
+  characteristics?: LocalizedString[];
+  tips?: LocalizedString[];
+  strengths?: LocalizedString[];
 }
 
 export interface Quiz {
