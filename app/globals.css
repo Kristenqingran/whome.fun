@@ -1,84 +1,14 @@
-@import "tailwindcss";
-
-:root {
-  --primary: #6366F1;
-  --primary-hover: #4F46E5;
-  --secondary: #EC4899;
-  --secondary-hover: #DB2777;
-  --background: #F8FAFC;
-  --surface: #FFFFFF;
-  --text-primary: #1E293B;
-  --text-secondary: #64748B;
-  --success: #10B981;
-  --warning: #F59E0B;
-  --border: #E2E8F0;
-}
-
-@theme inline {
-  --color-primary: var(--primary);
-  --color-primary-hover: var(--primary-hover);
-  --color-secondary: var(--secondary);
-  --color-secondary-hover: var(--secondary-hover);
-  --color-background: var(--background);
-  --color-surface: var(--surface);
-  --color-text-primary: var(--text-primary);
-  --color-text-secondary: var(--text-secondary);
-  --color-success: var(--success);
-  --color-warning: var(--warning);
-  --color-border: var(--border);
-  --font-sans: "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
-}
-
-body {
-  background: var(--background);
-  color: var(--text-primary);
-  font-family: var(--font-sans);
-}
-
-@layer components {
-  .site-container {
-    @apply w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
-  }
-
-  .article-content {
-    @apply max-w-3xl;
-  }
-
-  .btn-primary {
-    @apply bg-primary text-white px-6 py-3 rounded-xl font-semibold
-           hover:bg-primary-hover transition-all duration-150
-           active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed;
-  }
-
-  .btn-secondary {
-    @apply bg-surface text-primary border-2 border-primary px-6 py-3 rounded-xl font-semibold
-           hover:bg-indigo-50 transition-all duration-150
-           active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed;
-  }
-
-  .btn-ghost {
-    @apply text-text-secondary px-4 py-2 rounded-lg font-medium
-           hover:bg-slate-100 transition-all duration-150;
-  }
-
-  .card {
-    @apply bg-surface rounded-2xl shadow-sm border border-slate-100
-           overflow-hidden transition-all duration-150
-           hover:shadow-md hover:scale-[1.02];
-  }
-
-  .card-static {
-    @apply bg-surface rounded-2xl shadow-sm border border-slate-100 overflow-hidden;
-  }
-
-  .badge {
-    @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium
-           bg-indigo-100 text-primary;
-  }
-
-  .input-field {
-    @apply w-full px-4 py-3 rounded-xl border border-slate-200
-           focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary
-           transition-all duration-150;
-  }
-}
+@import 'tailwindcss';
+:root { color-scheme: light; }
+body { margin: 0; background: #f5f7f6; color: #17201d; font-family: Arial, sans-serif; }
+button, input, textarea { font: inherit; }
+.shell { max-width: 1080px; margin: 0 auto; padding: 32px 20px; }
+.card { background: white; border: 1px solid #d9e1dd; border-radius: 16px; padding: 24px; margin: 16px 0; box-shadow: 0 4px 18px #173b2610; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.field { display: grid; gap: 8px; margin: 12px 0; }
+.field input, .field textarea { border: 1px solid #c8d4ce; border-radius: 10px; padding: 12px; background: #fff; }
+.field textarea { min-height: 120px; resize: vertical; }
+.button { border: 0; border-radius: 10px; padding: 11px 16px; background: #216653; color: #fff; cursor: pointer; }
+.muted { color: #64736c; }
+.error { color: #b42318; }
+@media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }

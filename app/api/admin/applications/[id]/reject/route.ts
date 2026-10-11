@@ -1,0 +1,3 @@
+import { NextResponse } from 'next/server';
+import { requireAdmin } from '@/lib/auth';
+export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) { try { const { supabase } = await requireAdmin(); const { id } = await params; const body = await request.json().catch(() => ({})); const { error } = await supabase.from('access_applications').update({ status:'rejected', reviewed_at:new Date().toISOString(), review_note:typeof body.note==='string' ? body.note.slice(0,1000) : null }).eq('id',id).eq('status','pending'); if (error) throw error; return NextResponse.json({ ok:true }); } catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : '拒绝失败' }, { status: 400 }); } }

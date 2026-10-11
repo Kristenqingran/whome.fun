@@ -1,0 +1,3 @@
+'use client';
+import { useEffect, useState } from 'react';
+export default function Account() { const [quota, setQuota] = useState<{usedPercent:number;remainingDisplay:string;expiresAt:string|null} | null>(null); const [message,setMessage]=useState(''); useEffect(()=>{ fetch('/api/account/quota').then(async r=>{const b=await r.json(); if(!r.ok) setMessage(b.error||'请先登录'); else setQuota(b);}); },[]); return <div className="shell"><section className="card"><h1>账户</h1>{message && <p>{message}</p>}{quota && <><p>已使用 {quota.usedPercent}%，剩余 {quota.remainingDisplay}</p><progress max="100" value={quota.usedPercent} style={{width:'100%'}} />{quota.expiresAt && <p className="muted">有效期至 {new Date(quota.expiresAt).toLocaleString()}</p>}</>}</section></div>; }

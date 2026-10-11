@@ -1,29 +1,4 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-
-export function middleware(request: NextRequest) {
-  const pathname = request.nextUrl.pathname;
-
-  // Only handle root path
-  if (pathname !== '/') {
-    return NextResponse.next();
-  }
-
-  // Get IP country from Vercel header
-  const country = request.headers.get('x-vercel-ip-country') || '';
-
-  // Determine redirect based on country
-  // CN → /zh, non-CN or no header (localhost) → /zh for dev convenience
-  // Only redirect to /en when we explicitly detect a non-CN country
-  const redirectLang = !country || country === 'CN' ? 'zh' : 'en';
-
-  // Redirect to the appropriate locale
-  const url = request.nextUrl.clone();
-  url.pathname = `/${redirectLang}`;
-
-  return NextResponse.redirect(url);
-}
-
-export const config = {
-  matcher: '/',
-};
+import { createServerClient } from '@supabase/ssr';
+import { NextResponse, type NextRequest } from 'next/server';
+export async function middleware(request: NextRequest) { const response = NextResponse.next({ request }); const url = process.env.NEXT_PUBLIC_SUPABASE_URL; const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY; if (url && key) { const supabase = createServerClient(url, key, { cookies: { getAll: () => request.cookies.getAll(), setAll: (items) => items.forEach(({ name, value, options }) => response.cookies.set(name, value, options)) } }); await supabase.auth.getUser(); } return response; }
+export const config = { matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'] };

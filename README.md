@@ -1,36 +1,26 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Whome Book Copywriter Workbench
 
-## Getting Started
+邀请制内测版图书口播文案工作台。用户自行注册并完成邮箱验证后进入待审核状态；管理员批准后开通 30 天，并由平台承担最多 600 分（约 6 元）的模型调用成本。
 
-First, run the development server:
+当前版本不包含支付、订单、退款、邀请码、邀请链接或用户模型 Key 输入。DeepSeek Key 只允许配置在服务端环境变量中。
+
+## 本地启动
 
 ```bash
+cp .env.example .env.local
+# 编辑 .env.local，填写 Supabase 公共配置和服务端 DeepSeek Key
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+数据库迁移位于 `supabase/migrations/001_workbench.sql`。第一次管理员初始化请在 Supabase SQL Editor 中手动把已验证账号的 `profiles.role` 改为 `admin`，不要增加公开 bootstrap 接口。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 检查
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run lint
+npx tsc --noEmit
+npm run build
+```
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`.env.local` 不得提交。模型 Key 不会写入数据库、URL、前端构建产物或日志。

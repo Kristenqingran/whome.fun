@@ -1,0 +1,4 @@
+'use client';
+import { useState } from 'react';
+import { getSupabaseBrowser } from '@/lib/supabase-browser';
+export default function Login() { const [email, setEmail] = useState(''); const [password, setPassword] = useState(''); const [message, setMessage] = useState(''); async function submit(e: React.FormEvent) { e.preventDefault(); const { error } = await getSupabaseBrowser().auth.signInWithPassword({ email, password }); setMessage(error?.message || '登录成功，请进入文案工作台。'); } return <div className="shell"><form className="card" onSubmit={submit}><h1>登录</h1><label className="field">邮箱<input type="email" required value={email} onChange={e => setEmail(e.target.value)} /></label><label className="field">密码<input type="password" required value={password} onChange={e => setPassword(e.target.value)} /></label><button className="button">登录</button><p>{message}</p></form></div>; }

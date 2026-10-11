@@ -1,0 +1,6 @@
+import { NextResponse } from 'next/server';
+import { requireUser } from '@/lib/auth';
+import { requestSchema } from '@/lib/copywriter';
+import { generateCopy } from '@/lib/model';
+import { randomUUID } from 'node:crypto';
+export async function POST(request: Request) { const requestId = randomUUID(); let supabase: Awaited<ReturnType<typeof requireUser>>['supabase'] | undefined; try { const auth = await requireUser(); supabase = auth.supabase; const { user } = auth; const { data: profile } = await supabase.from('profiles').select('status').eq('id', user.id).single(); if (profile?.status !== 'active') return NextResponse.json({ error: '账号尚未通过管理员审核' }, { status: 403 }); const parsed = requestSchema.safeParse(await request.json()); if (!parsed.success) return NextResponse.json({ error: '输入内容不符合要求' }, { status: 400 }); const { error: reserveError } = await supabase.rpc('reserve_quota', { p_user_id:user.id, p_request_id:requestId, p_amount:50 }); if (reserveError) return NextResponse.json({ error: '当前没有可用的模型调用额度' }, { status: 402 }); try { const output = await generateCopy(parsed.data); return NextResponse.json({ ...output, requestId }); } catch (error) { await supabase.rpc('refund_reservation', { p_request_id: requestId }); throw error; } } catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : '请求失败' }, { status: 400 }); } }
