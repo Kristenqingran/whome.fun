@@ -88,3 +88,34 @@ test('generation route never accepts or forwards a caller supplied user id', () 
   assert.match(source, /finalize_generation/);
   assert.match(source, /refund_generation/);
 });
+
+test('header derives navigation from server session and role', () => {
+  const header = fs.readFileSync('app/[lang]/header.tsx', 'utf8');
+  assert.match(header, /getSupabaseServer/);
+  assert.match(header, /profile\?\.role === 'admin'/);
+  assert.match(header, /!user \? /);
+  assert.match(header, /管理后台/);
+  assert.match(fs.readFileSync('app/[lang]/logout-button.tsx', 'utf8'), /退出/);
+  assert.doesNotMatch(fs.readFileSync('app/[lang]/layout.tsx', 'utf8'), /管理/);
+});
+
+test('admin page performs server-side authorization before rendering client UI', () => {
+  const page = fs.readFileSync('app/[lang]/admin/page.tsx', 'utf8');
+  assert.match(page, /requireAdmin/);
+  assert.match(page, /redirect/);
+  assert.match(page, /AdminClient/);
+});
+
+test('drafts page redirects anonymous users and supports opening and copying drafts', () => {
+  const page = fs.readFileSync('app/[lang]/drafts/page.tsx', 'utf8');
+  assert.match(page, /r\.status===401/);
+  assert.match(page, /\/login\?next=/);
+  assert.match(page, /<details/);
+  assert.match(page, /navigator\.clipboard\.writeText/);
+});
+
+test('draft API scopes reads to the authenticated user', () => {
+  const route = fs.readFileSync('app/api/account/drafts/route.ts', 'utf8');
+  assert.match(route, /requireUser/);
+  assert.match(route, /eq\('user_id',user\.id\)/);
+});

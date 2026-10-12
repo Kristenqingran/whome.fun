@@ -1,2 +1,6 @@
-import Link from 'next/link';
-export default async function LangLayout({ children, params }: { children: React.ReactNode; params: Promise<{ lang: string }> }) { const { lang } = await params; return <><header className="card" style={{ margin: 0, borderRadius: 0 }}><div className="shell" style={{ padding: '8px 20px', display: 'flex', justifyContent: 'space-between' }}><Link href={`/${lang}`}><strong>Whome Copywriter</strong></Link><nav><Link href={`/${lang}/account`}>账户</Link> · <Link href={`/${lang}/drafts`}>我的稿件</Link> · <Link href={`/${lang}/admin`}>管理</Link></nav></div></header><main>{children}</main></>; }
+import Header from './header';
+
+export default async function LangLayout({ children, params }: { children: React.ReactNode; params: Promise<{ lang: string }> }) {
+  const { lang } = await params;
+  return <><Header lang={lang} /><main>{children}</main></>;
+}
