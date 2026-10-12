@@ -1,0 +1,3 @@
+import { getSupabaseServer } from './supabase';
+export async function requireUser() { const supabase = await getSupabaseServer(); const { data, error } = await supabase.auth.getUser(); if (error || !data.user || !data.user.email_confirmed_at) throw new Error('请先完成邮箱验证并登录'); return { supabase, user: data.user }; }
+export async function requireAdmin() { const result = await requireUser(); const { data } = await result.supabase.from('profiles').select('role,status').eq('id', result.user.id).single(); if (data?.role !== 'admin' || data.status === 'suspended') throw new Error('无管理员权限'); return result; }
