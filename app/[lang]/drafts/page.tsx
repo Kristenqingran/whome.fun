@@ -1,0 +1,4 @@
+'use client';
+import { useEffect, useState } from 'react';
+type Draft = { id:string; title:string; language:string; content:{script?:string}; created_at:string };
+export default function Drafts(){ const [drafts,setDrafts]=useState<Draft[]>([]); const [error,setError]=useState(''); useEffect(()=>{const timer=window.setTimeout(()=>{fetch('/api/account/drafts').then(async r=>{const b=await r.json(); if(!r.ok)setError(b.error||'请先登录'); else setDrafts(b.drafts||[]);});},0);return()=>window.clearTimeout(timer)},[]); return <div className="shell"><section className="card"><h1>我的稿件</h1>{error&&<p>{error}</p>}{drafts.map(d=><article className="card" key={d.id}><h2>{d.title}</h2><p className="muted">{d.language} · {new Date(d.created_at).toLocaleString()}</p><textarea value={d.content.script||''} readOnly/></article>)}</section></div>; }
