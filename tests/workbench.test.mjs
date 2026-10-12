@@ -119,3 +119,26 @@ test('draft API scopes reads to the authenticated user', () => {
   assert.match(route, /requireUser/);
   assert.match(route, /eq\('user_id',user\.id\)/);
 });
+
+test('WeRead integration keeps the server credential server-side and requires explicit candidate selection', () => {
+  const source = fs.readFileSync('lib/weread.ts', 'utf8');
+  const route = fs.readFileSync('app/api/book-copywriter/research/weread/route.ts', 'utf8');
+  const client = fs.readFileSync('app/[lang]/book-copywriter/workbench-client.tsx', 'utf8');
+  assert.match(source, /process\.env\.WEREAD_API_KEY/);
+  assert.doesNotMatch(client, /WEREAD_API_KEY|Authorization/);
+  assert.match(source, /找到多本同名书/);
+  assert.match(route, /requireUser/);
+  assert.match(client, /展开查看微信读书资料/);
+  assert.match(client, /book_id/);
+});
+
+test('generation passes confirmed WeRead materials through the existing protected route', () => {
+  const client = fs.readFileSync('app/[lang]/book-copywriter/workbench-client.tsx', 'utf8');
+  const schema = fs.readFileSync('lib/copywriter.ts', 'utf8');
+  const route = fs.readFileSync('app/api/book-copywriter/generate/route.ts', 'utf8');
+  assert.match(client, /weread_materials:materials/);
+  assert.match(schema, /weread_materials/);
+  assert.match(schema, /读者评论.*观点来源/);
+  assert.match(route, /reserve_quota/);
+  assert.match(route, /finalize_generation/);
+});
