@@ -18,6 +18,11 @@ button, input, textarea { font: inherit; }
 .research-details { margin-top: 16px; border: 1px solid #d9e1dd; border-radius: 12px; padding: 16px; }
 .research-details summary { cursor: pointer; font-weight: 700; }
 .research-content { white-space: pre-wrap; color: #46554e; }
+.research-panel { margin-top: 18px; padding: 18px; border: 1px solid #d9e1dd; border-radius: 14px; background: #fbfcfb; }
+.research-panel h2 { margin: 0 0 8px; }
+.research-section { margin-top: 12px; padding: 14px; border: 1px solid #e1e7e3; border-radius: 10px; background: #fff; }
+.research-section h3 { margin: 0 0 8px; }
+.research-section p { margin: 0; line-height: 1.7; }
 .candidate-list { display: grid; gap: 8px; margin: 16px 0; }
 .error { color: #b42318; }
 .site-header { background: #fff; border-bottom: 1px solid #d9e1dd; }

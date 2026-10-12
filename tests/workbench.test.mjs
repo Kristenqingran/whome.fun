@@ -142,3 +142,15 @@ test('generation passes confirmed WeRead materials through the existing protecte
   assert.match(route, /reserve_quota/);
   assert.match(route, /finalize_generation/);
 });
+
+test('WeRead materials are rendered as separate collapsed research sections', () => {
+  const client = fs.readFileSync('app/[lang]/book-copywriter/workbench-client.tsx', 'utf8');
+  assert.match(client, /research-details/);
+  assert.match(client, /书籍信息/);
+  assert.match(client, /简介/);
+  assert.match(client, /目录/);
+  assert.match(client, /热门划线\/笔记/);
+  assert.match(client, /读者评论/);
+  assert.match(client, /research-section/);
+  assert.match(client, /summary>展开查看微信读书资料/);
+});
