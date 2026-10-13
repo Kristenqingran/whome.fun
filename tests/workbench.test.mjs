@@ -188,3 +188,10 @@ test('admin applications list only returns pending applications', () => {
   const api = fs.readFileSync('app/api/admin/applications/route.ts', 'utf8');
   assert.match(api, /\.eq\('status',\s*'pending'\)/);
 });
+
+test('profiles RLS separates self access from admin access', () => {
+  const migration = fs.readFileSync('supabase/migrations/004_profiles_rls.sql', 'utf8');
+  assert.match(migration, /drop policy if exists "users read own profile"/);
+  assert.match(migration, /auth\.uid\(\) = id/);
+  assert.match(migration, /admins read profiles/);
+});
