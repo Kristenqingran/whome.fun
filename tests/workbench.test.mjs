@@ -154,3 +154,37 @@ test('WeRead materials are rendered as separate collapsed research sections', ()
   assert.match(client, /research-section/);
   assert.match(client, /summary>展开查看微信读书资料/);
 });
+
+test('login destination is resolved server-side from the session role and safely validates next', () => {
+  const login = fs.readFileSync('app/[lang]/login/page.tsx', 'utf8');
+  const route = fs.readFileSync('app/api/auth/login-redirect/route.ts', 'utf8');
+  const auth = fs.readFileSync('lib/auth.ts', 'utf8');
+  assert.match(login, /api\/auth\/login-redirect/);
+  assert.doesNotMatch(login, /profile|role/);
+  assert.match(route, /requireUser/);
+  assert.match(route, /profiles/);
+  assert.match(route, /role/);
+  assert.match(route, /book-copywriter/);
+  assert.match(route, /admin/);
+  assert.match(auth, /fallbackPrefix/);
+  assert.match(auth, /startsWith\('\/\/'\)/);
+  assert.match(auth, /includes\('\\\\'\)/);
+});
+
+test('admin remains server-protected when a normal user requests an admin return target', () => {
+  const page = fs.readFileSync('app/[lang]/admin/page.tsx', 'utf8');
+  const api = fs.readFileSync('app/api/admin/applications/route.ts', 'utf8');
+  assert.match(page, /requireAdmin/);
+  assert.match(api, /requireAdmin/);
+});
+
+test('admin login always lands on the admin review page', () => {
+  const route = fs.readFileSync('app/api/auth/login-redirect/route.ts', 'utf8');
+  assert.match(route, /const adminDestination = `\/\$\{lang\}\/admin`/);
+  assert.match(route, /destination: profile\.role === 'admin' \? adminDestination/);
+});
+
+test('admin applications list only returns pending applications', () => {
+  const api = fs.readFileSync('app/api/admin/applications/route.ts', 'utf8');
+  assert.match(api, /\.eq\('status',\s*'pending'\)/);
+});
